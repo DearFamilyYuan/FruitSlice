@@ -1,0 +1,21 @@
+# Gradle / Android build
+.gradle/
+build/
+app/build/
+
+# Local machine config
+local.properties
+.idea/
+*.iml
+captures/
+.DS_Store
+
+# Signing — never commit the keystore or its passwords
+keystore/
+keystore.properties
+*.keystore
+*.jks
+
+# APK artifacts
+*.apk
+*.aab

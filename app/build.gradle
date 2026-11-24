@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.alair.fruitslice'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.alair.fruitslice"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // Release signing is optional: credentials live in keystore.properties
+    // (git-ignored). Without it, release builds are simply unsigned.
+    def keystorePropsFile = rootProject.file('keystore.properties')
+    def keystoreProps = new Properties()
+    if (keystorePropsFile.exists()) {
+        keystorePropsFile.withInputStream { keystoreProps.load(it) }
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                storeFile rootProject.file(keystoreProps.getProperty('RELEASE_STORE_FILE', 'keystore/fruit_slice.keystore'))
+                storePassword keystoreProps.getProperty('RELEASE_STORE_PASSWORD')
+                keyAlias keystoreProps.getProperty('RELEASE_KEY_ALIAS', 'fruit_slice')
+                keyPassword keystoreProps.getProperty('RELEASE_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (keystorePropsFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    // Output APK file name follows the project name instead of the module name
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def base = rootProject.name
+            outputFileName = variant.buildType.name == 'release'
+                ? "${base}.apk".toString()
+                : "${base}-${variant.buildType.name}.apk".toString()
+        }
+    }
+}

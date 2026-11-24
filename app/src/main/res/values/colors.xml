@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 豆沙绿: slightly deeper at the top, classic #C7EDCC at the bottom -->
+    <color name="sky_top">#B4D9B0</color>
+    <color name="sky_bottom">#C7EDCC</color>
+</resources>
