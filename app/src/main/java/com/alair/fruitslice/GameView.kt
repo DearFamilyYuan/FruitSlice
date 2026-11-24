@@ -23,9 +23,11 @@ import kotlin.random.Random
  * Fruit slicing game.
  *
  * Design goals for kids under 5:
- *  - no bombs, no lives, no timer, no game over: nothing can "go wrong"
+ *  - no bombs, no lives, no losing: nothing can "go wrong"
  *  - huge fruits, slicing happens on any drag OR a simple tap on a fruit
  *  - every hit gives juice + sound + vibration, so random mashing still feels good
+ *  - a 10-minute session timer ends play on its own; MainActivity loops a
+ *    gentle voice reminder afterward (screen-time management for parents)
  */
 class GameView(context: Context) : View(context), Choreographer.FrameCallback {
 
